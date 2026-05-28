@@ -1,51 +1,36 @@
-<div>
-  <form (ngSubmit)="onSubmit()" class="space-y-5">
-    <div>
-      <label
-        for="title"
-        class="mb-1 block font-['Sancreek'] text-sm uppercase tracking-[0.18em] text-amber-900"
-      >
-        Todo title
-      </label>
+<form (ngSubmit)="onSubmit()" class="group py-5">
+  <div class="flex items-start justify-between gap-4">
+    <div class="flex min-w-0 flex-1 items-start gap-3">
+      <span class="mt-2 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-amber-900/30 text-amber-900/30">
+      </span>
 
-      <input
-        id="title"
-        [(ngModel)]="title"
-        name="title"
-        placeholder="Example: Study Angular"
-        required
-        class="w-full border-0 border-b border-amber-900/30 bg-transparent px-1 py-2 font-['Cormorant_Garamond'] text-2xl font-semibold text-stone-950 outline-none transition placeholder:text-stone-500/60 focus:border-red-950 focus:ring-0"
-      />
+      <div class="min-w-0 flex-1">
+        <input
+          id="title"
+          [(ngModel)]="title"
+          name="title"
+          placeholder="New outlaw..."
+          autocomplete="off"
+          class="w-full bg-transparent font-['Cedarville_Cursive'] text-2xl font-bold tracking-tight text-stone-950 outline-none placeholder:text-stone-400/40"
+        />
+
+        <textarea
+          id="note"
+          [(ngModel)]="note"
+          name="note"
+          placeholder="Last seen, crimes committed..."
+          rows="2"
+          class="mt-1 w-full resize-none bg-transparent font-['Cedarville_Cursive'] text-lg leading-6 text-stone-600 outline-none placeholder:text-stone-400/40"
+        ></textarea>
+      </div>
     </div>
 
-    <div>
-      <label
-        for="note"
-        class="mb-1 block font-['Sancreek'] text-sm uppercase tracking-[0.18em] text-amber-900"
-      >
-        Note
-        <span class="font-sans text-xs font-normal normal-case tracking-normal text-stone-500">
-          optional
-        </span>
-      </label>
-
-      <textarea
-        id="note"
-        [(ngModel)]="note"
-        name="note"
-        placeholder="Add extra details if needed..."
-        rows="3"
-        class="w-full resize-none border-0 border-b border-amber-900/30 bg-transparent px-1 py-2 font-['Cormorant_Garamond'] text-xl leading-7 text-stone-800 outline-none transition placeholder:text-stone-500/60 focus:border-red-950 focus:ring-0"
-      ></textarea>
-    </div>
-
-    <div class="flex justify-end">
-      <button
-        type="submit"
-        class="border-b border-red-950/40 pb-0.5 font-['Sancreek'] text-sm uppercase tracking-[0.18em] text-red-950 transition hover:border-red-800 hover:text-red-800 active:scale-[0.98]"
-      >
-        Add Todo
-      </button>
-    </div>
-  </form>
-</div>
+    <button
+      type="submit"
+      [disabled]="!title"
+      class="mt-1 shrink-0 border-b border-red-950/40 pb-0.5 font-['Sancreek'] text-xs uppercase tracking-[0.18em] text-red-950 opacity-40 transition hover:border-red-800 hover:text-red-800 hover:opacity-100 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-20"
+    >
+      Post
+    </button>
+  </div>
+</form>

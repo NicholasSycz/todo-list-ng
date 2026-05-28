@@ -1,120 +1,133 @@
-<div class="min-h-screen bg-gradient-to-br from-stone-950 via-amber-950 to-zinc-950 px-4 py-10">
+<div #card
+    class="relative mx-auto max-w-2xl overflow-hidden border border-amber-300/60 bg-amber-50/95 p-6 shadow-2xl shadow-black/40 ring-1 ring-stone-900/10 backdrop-blur [clip-path:polygon(0%_1%,33%_0%,66%_1%,100%_0%,99%_33%,100%_66%,99%_100%,66%_99%,33%_100%,0%_99%,1%_66%,0%_33%)]">
+    <!-- Parchment texture layers -->
     <div
-        class="relative mx-auto max-w-2xl overflow-hidden border border-amber-300/60 bg-amber-50/95 p-6 shadow-2xl shadow-black/40 ring-1 ring-stone-900/10 backdrop-blur [clip-path:polygon(1%_0%,99%_1%,100%_6%,99%_14%,100%_24%,98%_38%,100%_52%,99%_67%,100%_81%,98%_100%,86%_99%,73%_100%,61%_98%,48%_100%,35%_99%,21%_100%,9%_98%,0%_100%,1%_84%,0%_69%,1%_55%,0%_42%,2%_28%,0%_15%)]">
-        <!-- Parchment texture layers -->
-        <div
-            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(120,53,15,0.14),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(146,64,14,0.12),transparent_38%),linear-gradient(to_bottom,rgba(255,255,255,0.45),rgba(245,158,11,0.08))]">
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(120,53,15,0.14),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(146,64,14,0.12),transparent_38%),linear-gradient(to_bottom,rgba(255,255,255,0.45),rgba(245,158,11,0.08))]">
+    </div>
+    <div
+        class="pointer-events-none absolute inset-0 opacity-30 [background-image:radial-gradient(rgba(120,53,15,0.22)_0.6px,transparent_0.6px)] [background-size:10px_10px]">
+    </div>
+
+    <!-- Rough.js hand-drawn border -->
+    <svg #roughBorder class="pointer-events-none absolute inset-0 h-full w-full"></svg>
+
+    <!-- Real content sits above the texture -->
+    <div class="relative mx-5">
+
+        <!-- WANTED poster header -->
+        <div class="mb-5 text-center">
+            <p class="font-['Sancreek'] text-sm uppercase tracking-[0.35em] text-amber-800/70">
+                ✦ ─────────────── ✦
+            </p>
+            <h1 class="mt-1 font-['Rye'] text-7xl font-normal tracking-widest text-stone-950">
+                WANTED
+            </h1>
+            <p class="font-['Sancreek'] text-base uppercase tracking-[0.3em] text-red-950">
+                Dead or Alive
+            </p>
+            <p class="mt-1 font-['Sancreek'] text-sm uppercase tracking-[0.35em] text-amber-800/70">
+                ✦ ─────────────── ✦
+            </p>
         </div>
 
-        <div
-            class="pointer-events-none absolute inset-0 opacity-30 [background-image:radial-gradient(rgba(120,53,15,0.22)_0.6px,transparent_0.6px)] [background-size:10px_10px]">
+        <!-- Task count badge + subtitle -->
+        <div class="mb-6 flex items-center justify-between gap-4">
+            <p class="font-['Cormorant_Garamond'] text-lg text-stone-600">
+                All outlaws must be brought to justice. No mercy for the uncompleted.
+            </p>
+
+            <div
+                class="shrink-0 rounded-2xl bg-red-950 px-4 py-3 text-center text-amber-50 shadow-lg shadow-red-950/30 ring-1 ring-amber-200/30">
+                <p class="text-2xl font-bold">{{ todos().length }}</p>
+                <p class="text-xs font-medium uppercase tracking-wide text-amber-200">
+                    Outlaws
+                </p>
+            </div>
         </div>
 
-        <!-- Real content sits above the texture -->
-        <div class="relative">
-            <div class="mb-6 flex items-center justify-between gap-4">
-                <div>
-                    <p class="font-['Sancreek'] text-base uppercase tracking-[0.2em] text-amber-800">
-                        Productivity
-                    </p>
-
-                    <h2 class="mt-1 font-['Rye'] text-5xl font-normal tracking-wide text-stone-950">
-                        Tasks
-                    </h2>
-
-                    <p class="mt-2 font-['Cormorant_Garamond'] text-lg text-stone-600">
-                        Plan your day, track your progress, and stay focused. Like a Cowboy would.
-                    </p>
-                </div>
-
-                <div
-                    class="shrink-0 rounded-2xl bg-red-950 px-4 py-3 text-center text-amber-50 shadow-lg shadow-red-950/30 ring-1 ring-amber-200/30">
-                    <p class="text-2xl font-bold">{{ todos.length }}</p>
-                    <p class="text-xs font-medium uppercase tracking-wide text-amber-200">
-                        Tasks
-                    </p>
-                </div>
+        <!-- Progress / bounties claimed -->
+        <div class="mb-6 border-y border-amber-900/10 py-5">
+            <div class="mb-2 flex items-center justify-between text-sm">
+                <span class="font-['Sancreek'] text-xs uppercase tracking-[0.18em] text-amber-900">Bounties Claimed</span>
+                <span class="font-['Cormorant_Garamond'] text-base text-stone-500">
+                    {{ completedCount() }} captured / {{ todos().length }} total
+                </span>
             </div>
 
-<div class="mb-6 border-y border-amber-900/10 py-5">
-                <div class="mb-2 flex items-center justify-between text-sm">
-                    <span class="font-medium text-stone-800">Progress</span>
-                    <span class="text-stone-500">
-                        {{ completedCount }} / {{ todos.length }} completed
+            <div class="h-2 overflow-hidden rounded-full bg-stone-200">
+                <div class="h-full rounded-full bg-red-900 transition-all" [style.width.%]="progressPercent()"></div>
+            </div>
+        </div>
+
+        <!-- Outlaw list + inline form -->
+        <ul class="divide-y divide-amber-900/10 border-t border-amber-900/10">
+            @for (todo of todos(); track todo.id) {
+            <li class="group py-5 transition">
+                <div class="flex items-start justify-between gap-4">
+                    <div class="min-w-0">
+                        <div class="flex items-start gap-3">
+                            <span
+                                class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs font-bold"
+                                [ngClass]="todo.completed
+                                    ? 'border-green-900/40 text-green-900'
+                                    : 'border-amber-900/40 text-amber-900'">
+                                {{ todo.completed ? '★' : '' }}
+                            </span>
+
+                            <div>
+                                <strong class="block font-['Cedarville_Cursive'] text-2xl font-bold tracking-tight"
+                                    [ngClass]="todo.completed
+                                        ? 'text-stone-400 line-through decoration-stone-500/70 decoration-2'
+                                        : 'text-stone-950'">
+                                    {{ todo.title }}
+                                </strong>
+
+                                <p class="mt-1 max-w-prose font-['Cedarville_Cursive'] text-lg leading-6 text-stone-600">
+                                    {{ todo.note || 'No description on file.' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <span class="shrink-0 border-b text-xs font-bold uppercase tracking-wide"
+                        [ngClass]="todo.completed
+                            ? 'border-green-900/30 text-green-900'
+                            : 'border-amber-900/30 text-amber-900'">
+                        {{ todo.completed ? 'Captured' : 'At Large' }}
                     </span>
                 </div>
 
-                <div class="h-2 overflow-hidden rounded-full bg-stone-200">
-                    <div class="h-full rounded-full bg-red-900 transition-all" [style.width.%]="progressPercent"></div>
+                <div class="mt-3 ml-8 flex gap-3 opacity-60 transition group-hover:opacity-100">
+                    <button type="button" (click)="toggleComplete(todo)"
+                        class="border-b text-xs font-bold uppercase tracking-wide transition active:scale-[0.98]"
+                        [ngClass]="todo.completed
+                            ? 'border-stone-500/40 text-stone-700 hover:text-stone-950'
+                            : 'border-red-950/40 text-red-950 hover:text-red-800'">
+                        {{ todo.completed ? 'Release' : 'Apprehend' }}
+                    </button>
+
+                    <button type="button" (click)="deleteTodo(todo.id)"
+                        class="border-b border-red-950/30 text-xs font-bold uppercase tracking-wide text-red-950 transition hover:text-red-800 active:scale-[0.98]">
+                        Dismiss
+                    </button>
                 </div>
-            </div>
+            </li>
+            }
+            <li>
+                <app-todo-form (todoCreated)="loadTodos()"></app-todo-form>
+            </li>
+        </ul>
 
-<div class="mb-6 border-y border-amber-900/10 py-5">
-  <app-todo-form (todoCreated)="loadTodos()"></app-todo-form>
-</div>
-
-            <ul class="divide-y divide-amber-900/10 border-y border-amber-900/10">
-                <li *ngFor="let todo of todos" class="group py-5 transition">
-                    <div class="flex items-start justify-between gap-4">
-                        <div class="min-w-0">
-                            <div class="flex items-start gap-3">
-                                <span
-                                    class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs font-bold"
-                                    [ngClass]="todo.completed
-              ? 'border-green-900/40 text-green-900'
-              : 'border-amber-900/40 text-amber-900'">
-                                    {{ todo.completed ? '✓' : '' }}
-                                </span>
-
-                                <div>
-                                    <strong class="block font-['Cedarville_Cursive'] text-2xl font-bold tracking-tight"
-                                        [ngClass]="todo.completed
-                ? 'text-stone-400 line-through decoration-stone-500/70 decoration-2'
-                : 'text-stone-950'">
-                                        {{ todo.title }}
-                                    </strong>
-
-                                    <p
-                                        class="mt-1 max-w-prose font-['Cedarville_Cursive'] text-lg leading-6 text-stone-600">
-                                        {{ todo.note || 'No note added.' }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <span class="shrink-0 border-b text-xs font-bold uppercase tracking-wide" [ngClass]="todo.completed
-          ? 'border-green-900/30 text-green-900'
-          : 'border-amber-900/30 text-amber-900'">
-                            {{ todo.completed ? 'Done' : 'Open' }}
-                        </span>
-                    </div>
-
-                    <div class="mt-3 ml-8 flex gap-3 opacity-60 transition group-hover:opacity-100">
-                        <button type="button" (click)="toggleComplete(todo)"
-                            class="border-b text-xs font-bold uppercase tracking-wide transition active:scale-[0.98]"
-                            [ngClass]="todo.completed
-          ? 'border-stone-500/40 text-stone-700 hover:text-stone-950'
-          : 'border-red-950/40 text-red-950 hover:text-red-800'">
-                            {{ todo.completed ? 'Reopen' : 'Complete' }}
-                        </button>
-
-                        <button type="button" (click)="deleteTodo(todo.id)"
-                            class="border-b border-red-950/30 text-xs font-bold uppercase tracking-wide text-red-950 transition hover:text-red-800 active:scale-[0.98]">
-                            Delete
-                        </button>
-                    </div>
-                </li>
-            </ul>
-
-            <div *ngIf="todos.length === 0"
-                class="mb-6 border-y border-amber-900/10 py-5">
-                <p class="text-sm font-medium font-['Cedarville_Cursive'] text-stone-700">
-                    No todos yet.
-                </p>
-                <p class="mt-1 text-sm font-['Cedarville_Cursive'] text-stone-500">
-                    Add your first task above.
-                </p>
-            </div>
+        @if (todos().length === 0) {
+        <div class="border-t border-amber-900/10 pt-5">
+            <p class="font-['Cedarville_Cursive'] text-base text-stone-700">
+                No outlaws on the board.
+            </p>
+            <p class="mt-1 font-['Cedarville_Cursive'] text-sm text-stone-500">
+                Post your first bounty above.
+            </p>
         </div>
+        }
+
     </div>
 </div>
