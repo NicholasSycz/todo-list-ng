@@ -1,57 +1,81 @@
 # todo-list-ng
 
-Work-in-progress full-stack todo app:
-- `backend/`: Flask + SQLAlchemy + SQLite API
-- `frontend/`: Angular app
+A full-stack bounty board app styled as a WANTED poster. Track your outlaws, claim your bounties.
+
+- `backend/` — Flask + SQLAlchemy + SQLite REST API
+- `frontend/` — Angular 21 app with SSR, Tailwind CSS, and Rough.js
 
 ## Tech Stack
 
-- Python (Flask, Flask-SQLAlchemy, Flask-CORS)
-- SQLite (local file database)
-- Angular 21
+- **Backend:** Python, Flask, Flask-SQLAlchemy, Flask-CORS, SQLite
+- **Frontend:** Angular 21 (standalone components, signals, SSR), Tailwind CSS v4, Rough.js
 
 ## Project Structure
 
 ```text
 todo-list-ng/
 ├── backend/
-│   ├── app.py
-│   ├── models.py
+│   ├── app.py           # Flask routes
+│   ├── models.py        # SQLAlchemy Todo model
 │   └── requirements.txt
 ├── frontend/
 │   ├── src/
+│   │   └── app/
+│   │       ├── app.ts / app.html        # Root component
+│   │       ├── todo.ts                  # TodoService + Todo interface
+│   │       ├── todo-list/               # Main list + WANTED poster UI
+│   │       └── todo-form/               # Inline "new outlaw" form
 │   ├── package.json
 │   └── angular.json
-├── PLAN.md
+├── Makefile
 └── README.md
 ```
 
-## Prerequisites
+## Quick Start (Makefile)
 
-- Python 3.10+ (recommended)
-- Node.js 20+ and npm
+A `Makefile` is included for convenience. Run all commands from the repo root.
 
-## Backend Setup (Flask)
+### First-time setup
 
-From repo root:
+```bash
+make install
+```
+
+Installs both frontend (`npm install`) and backend (creates a Python venv and runs `pip install`).
+
+### Run both servers
+
+```bash
+make dev
+```
+
+Starts the Flask backend (port 5001) and Angular dev server (port 4200) together. **Ctrl+C stops both.**
+
+### Other commands
+
+| Command | Description |
+|---|---|
+| `make install` | Install all dependencies (frontend + backend) |
+| `make install-frontend` | `npm install` only |
+| `make install-backend` | Create venv + pip install only |
+| `make dev` | Run both servers concurrently |
+| `make dev-frontend` | Angular dev server only (`localhost:4200`) |
+| `make dev-backend` | Flask server only (`localhost:5001`) |
+| `make build` | Production build of the Angular app |
+| `make clean` | Remove `dist/`, `node_modules/`, and `__pycache__` |
+
+## Manual Setup (without Make)
+
+### Backend
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r backend/requirements.txt
-```
-
-Run the backend:
-
-```bash
 python backend/app.py
 ```
 
-Backend runs on `http://localhost:5000`.
-
-## Frontend Setup (Angular)
-
-In a new terminal:
+### Frontend
 
 ```bash
 cd frontend
@@ -59,28 +83,29 @@ npm install
 npm start
 ```
 
-Frontend runs on `http://localhost:4200`.
-
 ## API Endpoints
 
-Base URL: `http://localhost:5000`
+Base URL: `http://localhost:5001`
 
-- `GET /todos` - List all todos
-- `POST /todos` - Create a todo
-- `GET /todos/<id>` - Get one todo
-- `PUT /todos/<id>` - Update a todo
-- `DELETE /todos/<id>` - Delete a todo
+| Method | Path | Description |
+|---|---|---|
+| `GET` | `/todos` | List all todos |
+| `POST` | `/todos` | Create a todo |
+| `GET` | `/todos/<id>` | Get one todo |
+| `PUT` | `/todos/<id>` | Update a todo |
+| `DELETE` | `/todos/<id>` | Delete a todo |
 
 Example create payload:
 
 ```json
 {
-  "title": "Buy groceries",
-  "note": "Milk, eggs, bread"
+  "title": "Billy the Kid",
+  "note": "Armed and dangerous. Last seen heading west."
 }
 ```
 
 ## Notes
 
-- SQLite DB file is created automatically when the backend starts.
-- CORS is enabled so the Angular app can call the Flask API during development.
+- SQLite DB is created automatically at `backend/instance/todos.db` on first run.
+- CORS is enabled globally for local development.
+- The Angular app uses `provideHttpClient(withFetch())` for SSR compatibility.
